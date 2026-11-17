@@ -1,16 +1,14 @@
 /* =========================================================
    BELLA BLINKSS: script.js
-   ★ Everything you'll want to edit is in the CONFIG block ★
+   Images are now written directly in index.html.
+   This file handles the booking form, gallery filter,
+   lightbox, slider and contact details.
    ========================================================= */
 
 /* ---------------- CONFIG (EDIT HERE) ---------------- */
 // WhatsApp number: country code + number, digits only (no +, spaces or dashes).
 // 07031701276 → Nigeria country code 234, drop the leading 0.
 const WHATSAPP_NUMBER = "2348081640057";
-
-// Photos live in the assets folder. IMG("look1") loads ./assets/look1.jpg
-// To use Esther's photos, save them into assets with the same names.
-const IMG = name => `./assets/${name}.jpg`;
 
 const CONFIG = {
   tiktokUrl: "https://www.tiktok.com/@Bella_Blinkss",
@@ -28,32 +26,18 @@ const CONFIG = {
     sunday: ["12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM"]
   },
 
-  // `amount` is used for the estimated total. `addon: true` shows it as an add-on.
+  // Used ONLY for the booking form and the estimated total.
+  // The service cards you see on the page are written in index.html,
+  // so if you change a price, change it in both places.
+  // `addon: true` shows it as a checkbox add-on.
   services: [
-    { name: "Classic Lash Set",     desc: "One extension per natural lash for a soft, neat, natural definition.",       price: "₦8,000",  amount: 8000,  duration: "1 hr 20 min",  img: IMG("look2") },
-    { name: "Hybrid Lash Set",      desc: "A textured blend of classic and volume lashes for added dimension.",         price: "₦12,000", amount: 12000, duration: "2 hrs 20 min", img: IMG("look1") },
-    { name: "Volume Lash Set",      desc: "Lightweight handmade fans for a fuller, fluffier finish.",                   price: "₦17,000", amount: 17000, duration: "3 hrs",        img: IMG("closeup2") },
-    { name: "Mega Volume Lash Set", desc: "Ultra-fine, dense fans for the most dramatic, high-impact look.",            price: "₦21,000", amount: 21000, duration: "3 hrs 30 min", img: IMG("look3") },
-    { name: "Lash Removal",         desc: "Safe, careful removal that protects your natural lashes.",                   price: "₦5,000",  amount: 5000,  duration: "—",            img: IMG("studio1") },
-    { name: "Wispy Effect",         desc: "Add a feathery, wispy texture to your set.",                                 price: "₦3,000",  amount: 3000,  addon: true },
-    { name: "Bottom Lashes",        desc: "Frame the eye with delicate lower lashes.",                                  price: "₦3,000",  amount: 3000,  addon: true }
-  ],
-
-  // Gallery. category: "sets" | "ba" (before & after) | "closeup" | "studio"
-  // For before & after: { title: "...", category: "ba", img: "./assets/after1.jpg", before: "./assets/before1.jpg" }
-  // and add { key: "ba", label: "Before & After" } to galleryFilters below.
-  gallery: [
-    { title: "Soft Lash Look",     category: "sets",    tone: 1, tall: true, img: IMG("look1") },
-    { title: "Natural Lash Look",  category: "sets",    tone: 2, img: IMG("look2") },
-    { title: "Full Lash Look",     category: "sets",    tone: 4, img: IMG("look3") },
-    { title: "Lash Detail",        category: "closeup", tone: 3, img: IMG("closeup1") },
-    { title: "Long Lash Close-up", category: "closeup", tone: 1, tall: true, img: IMG("closeup2") },
-    { title: "Lash Station",       category: "studio",  tone: 2, img: IMG("studio1") },
-    { title: "In the Chair",       category: "studio",  tone: 4, img: IMG("studio2") }
-  ],
-  galleryFilters: [
-    { key: "all", label: "All" }, { key: "sets", label: "Lash Looks" },
-    { key: "closeup", label: "Close-ups" }, { key: "studio", label: "Studio" }
+    { name: "Classic Lash Set",     price: "₦8,000",  amount: 8000 },
+    { name: "Hybrid Lash Set",      price: "₦12,000", amount: 12000 },
+    { name: "Volume Lash Set",      price: "₦17,000", amount: 17000 },
+    { name: "Mega Volume Lash Set", price: "₦21,000", amount: 21000 },
+    { name: "Lash Removal",         price: "₦5,000",  amount: 5000 },
+    { name: "Wispy Effect",         price: "₦3,000",  amount: 3000, addon: true },
+    { name: "Bottom Lashes",        price: "₦3,000",  amount: 3000, addon: true }
   ],
 
   // Add real client reviews here (with permission). Leave empty to show a "coming soon" card.
@@ -67,40 +51,15 @@ const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
 const naira = n => "₦" + n.toLocaleString("en-NG");
 const waLink = (msg = "") => `https://wa.me/${WHATSAPP_NUMBER}${msg ? "?text=" + encodeURIComponent(msg) : ""}`;
-const mediaHTML = (img, alt) =>
-  img ? `<img src="${esc(img)}" alt="${esc(alt)}" loading="lazy" decoding="async">`
-      : `<svg class="art" aria-hidden="true"><use href="#art-eye"/></svg>`;
 
-/* ---------------- RENDER FROM CONFIG ---------------- */
-function renderServices() {
+/* ---------------- BOOKING FORM OPTIONS ---------------- */
+function initServiceForm() {
   const main = CONFIG.services.filter(s => !s.addon);
   const addons = CONFIG.services.filter(s => s.addon);
 
-  let html = main.map((s, i) => `
-    <article class="service-card reveal">
-      <div class="service-img slot tone-${(i % 4) + 1}"${s.img ? "" : ` role="img" aria-label="${esc(s.name)} image"`}>${mediaHTML(s.img, s.name)}</div>
-      <div class="service-body">
-        <h3>${esc(s.name)}</h3>
-        <p>${esc(s.desc)}</p>
-        <div class="service-meta"><span class="price">${esc(s.price)}</span><span>${esc(s.duration || "—")}</span></div>
-        <a href="#booking" class="btn btn-outline btn-sm" data-service="${esc(s.name)}">Book This Service</a>
-      </div>
-    </article>`).join("");
-
-  if (addons.length) {
-    html += `
-    <article class="service-card addon-card reveal">
-      <h3>Lash Add-ons</h3>
-      <p>Customise any lash set with these extras.</p>
-      ${addons.map(a => `<div class="addon-row"><div><strong>${esc(a.name)}</strong><br><small>${esc(a.desc)}</small></div><span class="price">${esc(a.price)}</span></div>`).join("")}
-      <a href="#booking" class="btn btn-outline btn-sm">Book With Add-ons</a>
-    </article>`;
-  }
-  $("#serviceGrid").innerHTML = html;
-
-  // Booking form options
   $("#service").insertAdjacentHTML("beforeend",
     main.map(s => `<option value="${esc(s.name)}">${esc(s.name)} (${esc(s.price)})</option>`).join(""));
+
   const box = $("#addonChecks");
   if (addons.length) {
     box.innerHTML = addons.map(a => `
@@ -113,17 +72,8 @@ function renderServices() {
   }));
 }
 
-function renderGallery() {
-  $("#galleryFilters").innerHTML = CONFIG.galleryFilters.map((f, i) =>
-    `<button class="filter-btn${i === 0 ? " active" : ""}" data-filter="${f.key}" aria-pressed="${i === 0}">${esc(f.label)}</button>`).join("");
-
-  const label = k => (CONFIG.galleryFilters.find(f => f.key === k) || {}).label || "";
-  $("#galleryGrid").innerHTML = CONFIG.gallery.map((g, i) => `
-    <button class="g-item reveal${g.tall ? " tall" : ""}" data-index="${i}" data-cat="${g.category}" aria-label="View ${esc(g.title)}">
-      <div class="slot tone-${g.tone || 1}">${mediaHTML(g.img, g.title)}</div>
-      <div class="g-over"><span>${esc(label(g.category))}</span><strong>${esc(g.title)}</strong></div>
-    </button>`).join("");
-
+/* ---------------- GALLERY FILTER ---------------- */
+function initGalleryFilter() {
   $("#galleryFilters").addEventListener("click", e => {
     const b = e.target.closest(".filter-btn"); if (!b) return;
     $$(".filter-btn").forEach(x => { x.classList.toggle("active", x === b); x.setAttribute("aria-pressed", x === b); });
@@ -134,6 +84,7 @@ function renderGallery() {
   });
 }
 
+/* ---------------- REVIEWS + CONTACT ---------------- */
 function renderReviews() {
   const track = $("#sliderTrack");
   if (!CONFIG.reviews.length) {
@@ -204,33 +155,37 @@ function initReveal() {
   items.forEach((el, i) => { el.style.transitionDelay = `${(i % 3) * 90}ms`; io.observe(el); });
 }
 
-/* ---------------- LIGHTBOX (before/after aware, respects filter) ---------------- */
+/* ---------------- LIGHTBOX (reads photos from the gallery HTML) ---------------- */
 function initLightbox() {
   const box = $("#lightbox"), body = $("#lbBody");
   let list = [], pos = 0, lastFocus = null;
 
-  const panel = (img, alt, tone, tag) => `<div class="lb-panel slot tone-${tone}">${tag ? `<span class="tag">${tag}</span>` : ""}${mediaHTML(img, alt)}</div>`;
+  const panel = (src, alt, tone, tag) =>
+    `<div class="lb-panel slot ${tone}">${tag ? `<span class="tag">${tag}</span>` : ""}<img src="${esc(src)}" alt="${esc(alt)}"></div>`;
 
   function show(p) {
     pos = (p + list.length) % list.length;
-    const g = CONFIG.gallery[list[pos]], tone = g.tone || 1;
-    const isBA = g.category === "ba";
+    const item = list[pos];
+    const src = $("img", item).getAttribute("src");
+    const title = $("strong", item).textContent;
+    const tone = ($(".slot", item).className.match(/tone-\d/) || ["tone-1"])[0];
+    const before = item.dataset.before;   // optional: data-before="./assets/before1.jpg"
     body.innerHTML = `
-      <div class="lb-pair${isBA ? "" : " single"}">
-        ${isBA ? panel(g.before, g.title + " before", tone === 2 ? 1 : 2, "Before") : ""}
-        ${panel(g.img, g.title, tone, isBA ? "After" : "")}
+      <div class="lb-pair${before ? "" : " single"}">
+        ${before ? panel(before, title + " before", "tone-3", "Before") : ""}
+        ${panel(src, title, tone, before ? "After" : "")}
       </div>
-      <figcaption>${esc(g.title)}</figcaption>`;
+      <figcaption>${esc(title)}</figcaption>`;
   }
-  function open(index) {
-    list = $$(".g-item:not([hidden])").map(el => +el.dataset.index);
+  function open(item) {
+    list = $$(".g-item:not([hidden])");
     lastFocus = document.activeElement;
-    show(list.indexOf(index));
+    show(list.indexOf(item));
     box.hidden = false; document.body.style.overflow = "hidden"; $("#lbClose").focus();
   }
   function close() { box.hidden = true; document.body.style.overflow = ""; lastFocus && lastFocus.focus(); }
 
-  $("#galleryGrid").addEventListener("click", e => { const it = e.target.closest(".g-item"); if (it) open(+it.dataset.index); });
+  $("#galleryGrid").addEventListener("click", e => { const it = e.target.closest(".g-item"); if (it) open(it); });
   $("#lbClose").addEventListener("click", close);
   $("#lbPrev").addEventListener("click", () => show(pos - 1));
   $("#lbNext").addEventListener("click", () => show(pos + 1));
@@ -386,7 +341,7 @@ function initMisc() {
 
 /* ---------------- INIT ---------------- */
 document.addEventListener("DOMContentLoaded", () => {
-  renderServices(); renderGallery(); renderReviews(); renderContact();
+  initServiceForm(); initGalleryFilter(); renderReviews(); renderContact();
   initNav(); initLightbox(); initSlider(); initBooking(); initMisc();
-  initReveal();   // last, so generated elements are observed too
+  initReveal();
 });
