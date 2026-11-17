@@ -13,7 +13,6 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%230B0A0A'/%3E%3Ctext x='32' y='42' font-size='30' text-anchor='middle' fill='%23D4AF77' font-family='serif'%3EB%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://images.unsplash.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
@@ -86,7 +85,7 @@
         </div>
 
         <div class="hero-visual reveal">
-          <!-- Stock photo for now. To use Esther's own photo, replace ./assets/hero.jpg with her file (same name) -->
+          <!-- To use Esther's own photo, replace assets/hero.jpg with her file (same name) -->
           <div class="arch slot tone-1">
             <img src="./assets/hero.jpg"
                  alt="Lash technician applying eyelash extensions to a client" width="900" height="1125" fetchpriority="high">
@@ -123,7 +122,8 @@
       </div>
     </section>
 
-    <!-- ========== SERVICES (generated from CONFIG.services) ========== -->
+    <!-- ========== SERVICES ========== -->
+    <!-- To change a photo: edit the src of that card's <img>. -->
     <section class="section services" id="services">
       <div class="container">
         <header class="section-head reveal">
@@ -131,12 +131,73 @@
           <h2>Lash styles, <em>tailored to you</em></h2>
           <p>Choose the style that suits your eyes and your everyday. Not sure? We'll guide you at your appointment.</p>
         </header>
-        <div class="service-grid" id="serviceGrid"></div>
+        <div class="service-grid" id="serviceGrid">
+
+          <article class="service-card reveal">
+            <div class="service-img slot tone-1"><img src="./assets/look2.jpg" alt="Classic Lash Set" loading="lazy" decoding="async"></div>
+            <div class="service-body">
+              <h3>Classic Lash Set</h3>
+              <p>One extension per natural lash for a soft, neat, natural definition.</p>
+              <div class="service-meta"><span class="price">₦8,000</span><span>1 hr 20 min</span></div>
+              <a href="#booking" class="btn btn-outline btn-sm" data-service="Classic Lash Set">Book This Service</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-img slot tone-2"><img src="./assets/look1.jpg" alt="Hybrid Lash Set" loading="lazy" decoding="async"></div>
+            <div class="service-body">
+              <h3>Hybrid Lash Set</h3>
+              <p>A textured blend of classic and volume lashes for added dimension.</p>
+              <div class="service-meta"><span class="price">₦12,000</span><span>2 hrs 20 min</span></div>
+              <a href="#booking" class="btn btn-outline btn-sm" data-service="Hybrid Lash Set">Book This Service</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-img slot tone-3"><img src="./assets/closeup2.jpg" alt="Volume Lash Set" loading="lazy" decoding="async"></div>
+            <div class="service-body">
+              <h3>Volume Lash Set</h3>
+              <p>Lightweight handmade fans for a fuller, fluffier finish.</p>
+              <div class="service-meta"><span class="price">₦17,000</span><span>3 hrs</span></div>
+              <a href="#booking" class="btn btn-outline btn-sm" data-service="Volume Lash Set">Book This Service</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-img slot tone-4"><img src="./assets/look3.jpg" alt="Mega Volume Lash Set" loading="lazy" decoding="async"></div>
+            <div class="service-body">
+              <h3>Mega Volume Lash Set</h3>
+              <p>Ultra-fine, dense fans for the most dramatic, high-impact look.</p>
+              <div class="service-meta"><span class="price">₦21,000</span><span>3 hrs 30 min</span></div>
+              <a href="#booking" class="btn btn-outline btn-sm" data-service="Mega Volume Lash Set">Book This Service</a>
+            </div>
+          </article>
+
+          <article class="service-card reveal">
+            <div class="service-img slot tone-1"><img src="./assets/closeup1.jpg" alt="Lash Removal" loading="lazy" decoding="async"></div>
+            <div class="service-body">
+              <h3>Lash Removal</h3>
+              <p>Safe, careful removal that protects your natural lashes.</p>
+              <div class="service-meta"><span class="price">₦5,000</span><span>—</span></div>
+              <a href="#booking" class="btn btn-outline btn-sm" data-service="Lash Removal">Book This Service</a>
+            </div>
+          </article>
+
+          <article class="service-card addon-card reveal">
+            <h3>Lash Add-ons</h3>
+            <p>Customise any lash set with these extras.</p>
+            <div class="addon-row"><div><strong>Wispy Effect</strong><br><small>Add a feathery, wispy texture to your set.</small></div><span class="price">₦3,000</span></div>
+            <div class="addon-row"><div><strong>Bottom Lashes</strong><br><small>Frame the eye with delicate lower lashes.</small></div><span class="price">₦3,000</span></div>
+            <a href="#booking" class="btn btn-outline btn-sm">Book With Add-ons</a>
+          </article>
+
+        </div>
         <p class="fine-print reveal">Durations are approximate. Bookings are validated upon payment.</p>
       </div>
     </section>
 
-    <!-- ========== GALLERY (generated from CONFIG.gallery) ========== -->
+    <!-- ========== GALLERY ========== -->
+    <!-- To change a photo: edit the src of that item's <img>. data-cat must match a filter button's data-filter. -->
     <section class="section alt gallery" id="gallery">
       <div class="container">
         <header class="section-head reveal">
@@ -144,8 +205,52 @@
           <h2>Lashes, <em>beautifully done</em></h2>
           <p>Tap any image to view it larger.</p>
         </header>
-        <div class="filters reveal" id="galleryFilters" role="group" aria-label="Filter gallery"></div>
-        <div class="gallery-grid" id="galleryGrid"></div>
+
+        <div class="filters reveal" id="galleryFilters" role="group" aria-label="Filter gallery">
+          <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-btn" data-filter="sets" aria-pressed="false">Lash Looks</button>
+          <button class="filter-btn" data-filter="closeup" aria-pressed="false">Close-ups</button>
+          <button class="filter-btn" data-filter="studio" aria-pressed="false">Studio</button>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid">
+
+          <button class="g-item reveal tall" data-cat="sets" aria-label="View Soft Lash Look">
+            <div class="slot tone-1"><img src="./assets/look1.jpg" alt="Soft Lash Look" loading="lazy" decoding="async"></div>
+            <div class="g-over"><span>Lash Looks</span><strong>Soft Lash Look</strong></div>
+          </button>
+
+          <button class="g-item reveal" data-cat="sets" aria-label="View Natural Lash Look">
+            <div class="slot tone-2"><img src="./assets/look2.jpg" alt="Natural Lash Look" loading="lazy" decoding="async"></div>
+            <div class="g-over"><span>Lash Looks</span><strong>Natural Lash Look</strong></div>
+          </button>
+
+          <button class="g-item reveal" data-cat="sets" aria-label="View Full Lash Look">
+            <div class="slot tone-4"><img src="./assets/look3.jpg" alt="Full Lash Look" loading="lazy" decoding="async"></div>
+            <div class="g-over"><span>Lash Looks</span><strong>Full Lash Look</strong></div>
+          </button>
+
+          <button class="g-item reveal" data-cat="closeup" aria-label="View Lash Detail">
+            <div class="slot tone-3"><img src="./assets/closeup1.jpg" alt="Lash Detail" loading="lazy" decoding="async"></div>
+            <div class="g-over"><span>Close-ups</span><strong>Lash Detail</strong></div>
+          </button>
+
+          <button class="g-item reveal tall" data-cat="closeup" aria-label="View Long Lash Close-up">
+            <div class="slot tone-1"><img src="./assets/closeup2.jpg" alt="Long Lash Close-up" loading="lazy" decoding="async"></div>
+            <div class="g-over"><span>Close-ups</span><strong>Long Lash Close-up</strong></div>
+          </button>
+
+          <button class="g-item reveal" data-cat="studio" aria-label="View Lash Station">
+            <div class="slot tone-2"><img src="./assets/studio1.jpg" alt="Lash Station" loading="lazy" decoding="async"></div>
+            <div class="g-over"><span>Studio</span><strong>Lash Station</strong></div>
+          </button>
+
+          <button class="g-item reveal" data-cat="studio" aria-label="View In the Chair">
+            <div class="slot tone-4"><img src="./assets/studio2.jpg" alt="In the Chair" loading="lazy" decoding="async"></div>
+            <div class="g-over"><span>Studio</span><strong>In the Chair</strong></div>
+          </button>
+
+        </div>
       </div>
     </section>
 
