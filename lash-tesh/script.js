@@ -8,9 +8,9 @@
 // 07031701276 → Nigeria country code 234, drop the leading 0.
 const WHATSAPP_NUMBER = "2348081640057";
 
-// Stock photos (Unsplash) until Esther's own photos arrive.
-// To swap one for hers, replace IMG("...") with "images/yourfile.jpg".
-const IMG = (id, w = 800) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`;
+// Photos live in the assets folder. IMG("look1") loads ./assets/look1.jpg
+// To use Esther's photos, save them into assets with the same names.
+const IMG = name => `./assets/${name}.jpg`;
 
 const CONFIG = {
   tiktokUrl: "https://www.tiktok.com/@Bella_Blinkss",
@@ -30,27 +30,26 @@ const CONFIG = {
 
   // `amount` is used for the estimated total. `addon: true` shows it as an add-on.
   services: [
-    { name: "Classic Lash Set",     desc: "One extension per natural lash for a soft, neat, natural definition.",       price: "₦8,000",  amount: 8000,  duration: "1 hr 20 min",  img: IMG("1548902378-2ec44c906391") },
-    { name: "Hybrid Lash Set",      desc: "A textured blend of classic and volume lashes for added dimension.",         price: "₦12,000", amount: 12000, duration: "2 hrs 20 min", img: IMG("1683719312734-e31de63957ab") },
-    { name: "Volume Lash Set",      desc: "Lightweight handmade fans for a fuller, fluffier finish.",                   price: "₦17,000", amount: 17000, duration: "3 hrs",        img: IMG("1639629509821-c54cdd984227") },
-    { name: "Mega Volume Lash Set", desc: "Ultra-fine, dense fans for the most dramatic, high-impact look.",            price: "₦21,000", amount: 21000, duration: "3 hrs 30 min", img: IMG("1567629307995-b9f33097bd30") },
-    { name: "Lash Removal",         desc: "Safe, careful removal that protects your natural lashes.",                   price: "₦5,000",  amount: 5000,  duration: "—",            img: IMG("1770999086860-143f54adf01b") },
+    { name: "Classic Lash Set",     desc: "One extension per natural lash for a soft, neat, natural definition.",       price: "₦8,000",  amount: 8000,  duration: "1 hr 20 min",  img: IMG("look2") },
+    { name: "Hybrid Lash Set",      desc: "A textured blend of classic and volume lashes for added dimension.",         price: "₦12,000", amount: 12000, duration: "2 hrs 20 min", img: IMG("look1") },
+    { name: "Volume Lash Set",      desc: "Lightweight handmade fans for a fuller, fluffier finish.",                   price: "₦17,000", amount: 17000, duration: "3 hrs",        img: IMG("closeup2") },
+    { name: "Mega Volume Lash Set", desc: "Ultra-fine, dense fans for the most dramatic, high-impact look.",            price: "₦21,000", amount: 21000, duration: "3 hrs 30 min", img: IMG("look3") },
+    { name: "Lash Removal",         desc: "Safe, careful removal that protects your natural lashes.",                   price: "₦5,000",  amount: 5000,  duration: "—",            img: IMG("studio1") },
     { name: "Wispy Effect",         desc: "Add a feathery, wispy texture to your set.",                                 price: "₦3,000",  amount: 3000,  addon: true },
     { name: "Bottom Lashes",        desc: "Frame the eye with delicate lower lashes.",                                  price: "₦3,000",  amount: 3000,  addon: true }
   ],
 
   // Gallery. category: "sets" | "ba" (before & after) | "closeup" | "studio"
-  // Currently stock photos. Replace `img` with Esther's own photos when available.
-  // For before & after: { title: "...", category: "ba", img: "images/after1.jpg", before: "images/before1.jpg" }
+  // For before & after: { title: "...", category: "ba", img: "./assets/after1.jpg", before: "./assets/before1.jpg" }
   // and add { key: "ba", label: "Before & After" } to galleryFilters below.
   gallery: [
-    { title: "Soft Lash Look",     category: "sets",    tone: 1, tall: true, img: IMG("1683719312734-e31de63957ab", 700) },
-    { title: "Natural Lash Look",  category: "sets",    tone: 2, img: IMG("1548902378-2ec44c906391", 700) },
-    { title: "Full Lash Look",     category: "sets",    tone: 4, img: IMG("1567629307995-b9f33097bd30", 700) },
-    { title: "Lash Detail",        category: "closeup", tone: 3, img: IMG("1770999086860-143f54adf01b", 700) },
-    { title: "Long Lash Close-up", category: "closeup", tone: 1, tall: true, img: IMG("1639629509821-c54cdd984227", 700) },
-    { title: "Lash Station",       category: "studio",  tone: 2, img: IMG("1589710751893-f9a6770ad71b", 700) },
-    { title: "In the Chair",       category: "studio",  tone: 4, img: IMG("1674049406467-824ea37c7184", 700) }
+    { title: "Soft Lash Look",     category: "sets",    tone: 1, tall: true, img: IMG("look1") },
+    { title: "Natural Lash Look",  category: "sets",    tone: 2, img: IMG("look2") },
+    { title: "Full Lash Look",     category: "sets",    tone: 4, img: IMG("look3") },
+    { title: "Lash Detail",        category: "closeup", tone: 3, img: IMG("closeup1") },
+    { title: "Long Lash Close-up", category: "closeup", tone: 1, tall: true, img: IMG("closeup2") },
+    { title: "Lash Station",       category: "studio",  tone: 2, img: IMG("studio1") },
+    { title: "In the Chair",       category: "studio",  tone: 4, img: IMG("studio2") }
   ],
   galleryFilters: [
     { key: "all", label: "All" }, { key: "sets", label: "Lash Looks" },
